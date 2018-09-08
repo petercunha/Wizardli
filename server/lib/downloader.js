@@ -37,7 +37,7 @@ function YoutubeMp3Downloader(options) {
 	self.requestOptions =
 		options && options.requestOptions
 			? options.requestOptions
-			: {maxRedirects: 5};
+			: { maxRedirects: 5 };
 	self.outputOptions =
 		options && options.outputOptions ? options.outputOptions : [];
 
@@ -46,12 +46,12 @@ function YoutubeMp3Downloader(options) {
 	}
 
 	// Async download/transcode queue
-	self.downloadQueue = async.queue(function(task, callback) {
+	self.downloadQueue = async.queue(function (task, callback) {
 		self.emit(
 			"queueSize",
 			self.downloadQueue.running() + self.downloadQueue.length()
 		);
-		self.performDownload(task, function(err, result) {
+		self.performDownload(task, function (err, result) {
 			callback(err, result);
 		});
 	}, self.queueParallelism);
@@ -59,24 +59,24 @@ function YoutubeMp3Downloader(options) {
 
 util.inherits(YoutubeMp3Downloader, EventEmitter);
 
-YoutubeMp3Downloader.prototype.cleanFileName = function(fileName) {
+YoutubeMp3Downloader.prototype.cleanFileName = function (fileName) {
 	var self = this;
 
-	self.fileNameReplacements.forEach(function(replacement) {
+	self.fileNameReplacements.forEach(function (replacement) {
 		fileName = fileName.replace(replacement[0], replacement[1]);
 	});
 
 	return fileName;
 };
 
-YoutubeMp3Downloader.prototype.download = function(videoId, fileName) {
+YoutubeMp3Downloader.prototype.download = function (videoId, fileName) {
 	var self = this;
 	var task = {
 		videoId: videoId,
 		fileName: fileName
 	};
 
-	self.downloadQueue.push(task, function(err, data) {
+	self.downloadQueue.push(task, function (err, data) {
 		self.emit(
 			"queueSize",
 			self.downloadQueue.running() + self.downloadQueue.length()
@@ -90,14 +90,14 @@ YoutubeMp3Downloader.prototype.download = function(videoId, fileName) {
 	});
 };
 
-YoutubeMp3Downloader.prototype.performDownload = function(task, callback) {
+YoutubeMp3Downloader.prototype.performDownload = function (task, callback) {
 	var self = this;
 	var videoUrl = self.youtubeBaseUrl + task.videoId;
 	var resultObj = {
 		videoId: task.videoId
 	};
 
-	ytdl.getInfo(videoUrl, function(err, info) {
+	ytdl.getInfo(videoUrl, function (err, info) {
 		if (err) {
 			callback(err.message, resultObj);
 		} else {
@@ -117,24 +117,26 @@ YoutubeMp3Downloader.prototype.performDownload = function(task, callback) {
 			}
 
 			// Derive file name, if given, use it, if not, from video title
+			var randomFilenameElement = Math.floor((Math.random() * 100000) + 1);
 			var fileName = task.fileName
 				? self.outputPath + "/" + task.fileName
 				: self.outputPath +
-				  "/" +
-				  (sanitize(videoTitle) || info.video_id) +
-				  ".mp3";
+				"/" +
+				(sanitize(videoTitle) || info.video_id) +
+				"_" + randomFilenameElement +
+				".mp3";
 
 			ytdl.getInfo(
 				videoUrl,
-				{quality: self.youtubeVideoQuality},
-				function(err, info) {
+				{ quality: self.youtubeVideoQuality },
+				function (err, info) {
 					// Stream setup
 					var stream = ytdl.downloadFromInfo(info, {
 						quality: self.youtubeVideoQuality,
 						requestOptions: self.requestOptions
 					});
 
-					stream.on("response", function(httpResponse) {
+					stream.on("response", function (httpResponse) {
 						// Setup of progress module
 						var str = progress({
 							length: parseInt(
@@ -144,7 +146,7 @@ YoutubeMp3Downloader.prototype.performDownload = function(task, callback) {
 						});
 
 						// Add progress event listener
-						str.on("progress", function(progress) {
+						str.on("progress", function (progress) {
 							if (progress.percentage === 100) {
 								resultObj.stats = {
 									transferredBytes: progress.transferred,
@@ -181,10 +183,10 @@ YoutubeMp3Downloader.prototype.performDownload = function(task, callback) {
 							.withAudioCodec("libmp3lame")
 							.toFormat("mp3")
 							.outputOptions(outputOptions)
-							.on("error", function(err) {
+							.on("error", function (err) {
 								callback(err.message, null);
 							})
-							.on("end", function() {
+							.on("end", function () {
 								resultObj.file = fileName;
 								resultObj.youtubeUrl = videoUrl;
 								resultObj.videoTitle = videoTitle;

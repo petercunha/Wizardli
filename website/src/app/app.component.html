@@ -25,7 +25,8 @@
       <div class="col-md-12">
         <form (ngSubmit)="onSubmit()">
           <div class="input-group mt-3 mb-5 mb-5">
-            <input [(ngModel)]="videoLink" (input)="onVideoLinkChange($event.target.value)" class="form-control bg-dark text-white border-secondary form-control-lg text-center" name="videoLinkEl" type="text" placeholder="Enter YouTube video link">
+            <input [(ngModel)]="videoLink" (input)="onVideoLinkChange($event.target.value)" class="form-control bg-dark text-white border-secondary form-control-lg text-center"
+              name="videoLinkEl" type="text" placeholder="Enter YouTube video link">
             <span class="input-group-append">
               <div *ngIf="isVideoLinkValid; then downloadIcon else searchIcon"></div>
               <ng-template #searchIcon>
@@ -41,6 +42,11 @@
             </span>
           </div>
         </form>
+        <div *ngIf="isDownloadComplete">
+          <a [href]="downloadLink" class="btn btn-primary">
+            Download Now
+          </a>
+        </div>
       </div>
     </div>
   </div>
