@@ -1,0 +1,14 @@
+{
+  "name": "youtube-downloader",
+  "version": "1.0.0",
+  "description": "Downloads MP3 audio from YouTube videos",
+  "main": "index.js",
+  "author": "Peter Cunha",
+  "license": "MIT",
+  "dependencies": {
+    "fluent-ffmpeg": "^2.1.2",
+    "sanitize-filename": "^1.6.1",
+    "youtube-mp3-downloader": "^0.5.3",
+    "ytdl-core": "^0.25.2"
+  }
+}
