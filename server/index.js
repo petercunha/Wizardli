@@ -69,6 +69,15 @@ app.get('/downloadFile/:id', (req, res) => {
 				res.status(500).send('Download failed.')
 			} else {
 				res.download(file)
+
+				// Delete file after 15 minutes
+				setTimeout(() => {
+					fs.unlink(file, (error) => {
+						if (error) {
+							console.log(`Error deleting ${file} ERROR: ${error}`)
+						}
+					})
+				}, 15 * 60000);
 			}
 		})
 	} catch (error) {

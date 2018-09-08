@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { faSearch, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faDownload, faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-root',
@@ -13,9 +13,11 @@ export class AppComponent {
   videoLink = '';
   isVideoLinkValid = false;
   downloadLink = '';
+  isDownloadInProgress = false;
   isDownloadComplete = false;
 
   faSearch = faSearch;
+  faSpinner = faSpinner;
   faDownload = faDownload;
 
   constructor(private http: HttpClient) {
@@ -23,23 +25,34 @@ export class AppComponent {
   }
 
   onSubmit() {
+    this.isDownloadComplete = false;
+
     if (this.isVideoLinkValid) {
+      console.log('Video URL requested for download:', this.videoLink);
       const url = `${this.API_URL}/download/${this.videoLink.split('watch?v=')[1]}`;
+      this.videoLink = 'Downloading audio...';
+      this.isDownloadInProgress = true;
+
       this.http.get(url, { responseType: 'text' })
         .subscribe(
           resp => {
-            console.log(resp);
-            const responseLink = `${this.API_URL}/downloadFile/${resp}`;
+            this.downloadLink = `${this.API_URL}/downloadFile/${resp}`;
             this.isDownloadComplete = true;
-            this.downloadLink = responseLink;
-            console.log('response was', responseLink);
+            this.resetDownloadUI();
+            console.log('Download link: ', this.downloadLink);
           },
           err => {
-            console.log('caught an error', err);
+            this.resetDownloadUI();
+            console.log('Error getting download link:', err);
           }
         );
     }
-    console.log('Submitted', this.videoLink);
+  }
+
+  resetDownloadUI() {
+    this.isDownloadInProgress = false;
+    this.isVideoLinkValid = false;
+    this.videoLink = '';
   }
 
   onVideoLinkChange(value: string) {
