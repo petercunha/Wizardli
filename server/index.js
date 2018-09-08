@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 const express = require('express')
 const cors = require('cors')
 const app = express()
@@ -13,6 +14,9 @@ var YD = new YoutubeMp3Downloader({
 	queueParallelism: 2, // How many parallel downloads/encodes should be started?
 	progressTimeout: 2000 // How long should be the interval of the progress reports
 })
+
+const STATIC_ASSET_FOLDER = path.join(__dirname, '..', 'website', 'dist', 'youtube-downloader');
+app.use('/', express.static(STATIC_ASSET_FOLDER));
 
 app.get('/download/:id', (req, res) => {
 	if (!req.params.id) {

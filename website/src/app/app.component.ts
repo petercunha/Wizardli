@@ -8,7 +8,7 @@ import { faSearch, faDownload, faSpinner } from '@fortawesome/free-solid-svg-ico
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  readonly API_URL = 'http://localhost:3000';
+  readonly API_URL = ''; // Blank for local
   title = 'youtube-downloader';
   videoLink = '';
   isVideoLinkValid = false;
