@@ -1,0 +1,53 @@
+<div class="cover-container d-flex h-100 p-3 mx-auto flex-column text-center">
+  <header class="masthead mb-auto pb-3">
+    <div class="inner">
+      <h3 class="masthead-brand">Wizardly</h3>
+      <nav class="nav nav-masthead justify-content-center">
+        <a class="nav-link active" href="#">Home</a>
+        <a class="nav-link" href="href">About</a>
+        <a class="nav-link" href="href">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="row justify-content-center pb-5 mb-5 mt-3">
+    <div class="row">
+      <div class="col-md-12">
+        <h2>YouTube to MP3</h2>
+      </div>
+    </div><br>
+    <div class="row">
+      <div class="col-md-12">
+        <p class="lead">Wizardly downloads the best quality audio automatically. Instant downloads.</p>
+      </div>
+    </div>
+    <div class="row w-100">
+      <div class="col-md-12">
+        <form (ngSubmit)="onSubmit()">
+          <div class="input-group mt-3 mb-5 mb-5">
+            <input [(ngModel)]="videoLink" (input)="onVideoLinkChange($event.target.value)" class="form-control bg-dark text-white border-secondary form-control-lg text-center" name="videoLinkEl" type="text" placeholder="Enter YouTube video link">
+            <span class="input-group-append">
+              <div *ngIf="isVideoLinkValid; then downloadIcon else searchIcon"></div>
+              <ng-template #searchIcon>
+                <button class="btn btn-dark border-secondary border-left-0 px-3" type="submit">
+                  <fa-icon [icon]="faSearch"></fa-icon>
+                </button>
+              </ng-template>
+              <ng-template #downloadIcon>
+                <button class="btn btn-primary px-3" type="submit">
+                  <fa-icon [icon]="faDownload"></fa-icon>
+                </button>
+              </ng-template>
+            </span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer class="mastfoot mt-auto">
+    <div class="inner">
+      <!-- <p class="small">Copyright @ Wizardly 2018 -->
+    </div>
+  </footer>
+</div>
