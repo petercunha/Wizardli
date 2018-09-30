@@ -5,10 +5,15 @@
   "main": "index.js",
   "author": "Peter Cunha",
   "license": "MIT",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
   "dependencies": {
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "fluent-ffmpeg": "^2.1.2",
+    "nodemon": "^1.18.4",
     "sanitize-filename": "^1.6.1",
     "youtube-mp3-downloader": "^0.5.3",
     "ytdl-core": "^0.25.2"
