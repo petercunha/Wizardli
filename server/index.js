@@ -6,13 +6,12 @@ const YoutubeMp3Downloader = require('./lib/downloader')
 const app = express()
 app.use(cors())
 
-// How many SECONDS to wait before deleting downloaded MP3's.
-const DELETE_TIMER = 600;
+const config = require('./config.js')
 
 //Configure YoutubeMp3Downloader with your settings
 var YD = new YoutubeMp3Downloader({
-	ffmpegPath: '/usr/local/bin/ffmpeg', // Where is the FFmpeg binary located?
-	outputPath: './downloads', // Where should the downloaded and encoded files be stored?
+	ffmpegPath: config.ffmpegPath, // Where is the FFmpeg binary located?
+	outputPath: config.downloadDir, // Where should the downloaded and encoded files be stored?
 	youtubeVideoQuality: 'highest', // What video quality should be used?
 	queueParallelism: 2, // How many parallel downloads/encodes should be started?
 	progressTimeout: 2000 // How long should be the interval of the progress reports
@@ -49,7 +48,7 @@ app.get('/download/:id', (req, res) => {
 							console.log(`Error deleting ${data.file} ERROR: ${error}`)
 						}
 					})
-				}, DELETE_TIMER * 1000);
+				}, config.deleteTimer * 1000);
 
 				var filename = data.file.split('/')
 				var downloadId = encrypt(filename[filename.length - 1])
@@ -94,7 +93,7 @@ app.get('/downloadFile/:id', (req, res) => {
 	}
 })
 
-app.listen(3000, () => console.log('Listening on port 3000'))
+app.listen(config.port, () => console.log(`Listening on port ${config.port}`))
 
 // Nodejs encryption with CTR
 var crypto = require('crypto'),
