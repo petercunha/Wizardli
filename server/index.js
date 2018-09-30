@@ -1,12 +1,16 @@
 const fs = require('fs')
 const path = require('path')
 const express = require('express')
-const cors = require('cors')
-const YoutubeMp3Downloader = require('./lib/downloader')
 const app = express()
-app.use(cors())
-
 const config = require('./config.js')
+const YoutubeMp3Downloader = require('./lib/downloader')
+const encryption = require("./lib/encryption")
+
+// Enable CORS if config says so
+if (config.cors) {
+	const cors = require('cors')
+	app.use(cors())
+}
 
 //Configure YoutubeMp3Downloader with your settings
 var YD = new YoutubeMp3Downloader({
@@ -39,7 +43,7 @@ app.get('/download/:id', (req, res) => {
 					sendComplete = true
 				}
 			} else {
-				console.log(data);
+				console.log('Video downloaded:\n', data);
 
 				// Delete file after 
 				setTimeout(() => {
@@ -51,7 +55,7 @@ app.get('/download/:id', (req, res) => {
 				}, config.deleteTimer * 1000);
 
 				var filename = data.file.split('/')
-				var downloadId = encrypt(filename[filename.length - 1])
+				var downloadId = encryption.encrypt(filename[filename.length - 1])
 				if (!sendComplete) {
 					res.send(downloadId)
 					sendComplete = true
@@ -68,7 +72,7 @@ app.get('/download/:id', (req, res) => {
 		})
 
 		YD.on('progress', function (progress) {
-			console.log(JSON.stringify(progress))
+			// console.log(JSON.stringify(progress))
 		})
 	} catch (error) {
 		if (!sendComplete) {
@@ -80,7 +84,7 @@ app.get('/download/:id', (req, res) => {
 
 app.get('/downloadFile/:id', (req, res) => {
 	try {
-		var file = __dirname + '/downloads/' + decrypt(req.params.id)
+		var file = __dirname + '/downloads/' + encryption.decrypt(req.params.id)
 		fs.stat(file, function (err) {
 			if (err) {
 				res.status(500).send('Download failed.')
@@ -96,20 +100,21 @@ app.get('/downloadFile/:id', (req, res) => {
 app.listen(config.port, () => console.log(`Listening on port ${config.port}`))
 
 // Nodejs encryption with CTR
-var crypto = require('crypto'),
-	algorithm = 'aes-256-ctr',
-	password = '~2fD&B,@36$(aAhm';
+// var crypto = require('crypto'),
+// 	algorithm = 'aes-256-ctr',
+// 	password = '~2fD&B,@36$(aAhm';
 
-function encrypt(text) {
-	var cipher = crypto.createCipher(algorithm, password)
-	var crypted = cipher.update(text, 'utf8', 'hex')
-	crypted += cipher.final('hex');
-	return crypted;
-}
+// function encrypt(text) {
+// 	var cipher = crypto.createCipheriv(algorithm, password)
+// 	var crypted = cipher.update(text, 'utf8', 'hex')
+// 	crypted += cipher.final('hex');
+// 	return crypted;
+// }
 
-function decrypt(text) {
-	var decipher = crypto.createDecipher(algorithm, password)
-	var dec = decipher.update(text, 'hex', 'utf8')
-	dec += decipher.final('utf8');
-	return dec;
-}
+// function decrypt(text) {
+// 	var decipher = crypto.createDecipheriv(algorithm, password)
+// 	var dec = decipher.update(text, 'hex', 'utf8')
+// 	dec += decipher.final('utf8');
+// 	return dec;
+// }
+
