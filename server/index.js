@@ -2,9 +2,12 @@ const fs = require('fs')
 const path = require('path')
 const express = require('express')
 const cors = require('cors')
+const YoutubeMp3Downloader = require('./lib/downloader')
 const app = express()
 app.use(cors())
-const YoutubeMp3Downloader = require('./lib/downloader')
+
+// How many SECONDS to wait before deleting downloaded MP3's.
+const DELETE_TIMER = 600;
 
 //Configure YoutubeMp3Downloader with your settings
 var YD = new YoutubeMp3Downloader({
@@ -37,6 +40,17 @@ app.get('/download/:id', (req, res) => {
 					sendComplete = true
 				}
 			} else {
+				console.log(data);
+
+				// Delete file after 
+				setTimeout(() => {
+					fs.unlink(data.file, (error) => {
+						if (error) {
+							console.log(`Error deleting ${data.file} ERROR: ${error}`)
+						}
+					})
+				}, DELETE_TIMER * 1000);
+
 				var filename = data.file.split('/')
 				var downloadId = encrypt(filename[filename.length - 1])
 				if (!sendComplete) {
@@ -73,15 +87,6 @@ app.get('/downloadFile/:id', (req, res) => {
 				res.status(500).send('Download failed.')
 			} else {
 				res.download(file)
-
-				// Delete file after 15 minutes
-				setTimeout(() => {
-					fs.unlink(file, (error) => {
-						if (error) {
-							console.log(`Error deleting ${file} ERROR: ${error}`)
-						}
-					})
-				}, 15 * 60000);
 			}
 		})
 	} catch (error) {

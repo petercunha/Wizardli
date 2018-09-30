@@ -1,12 +1,12 @@
 "use strict";
-var os = require("os");
-var util = require("util");
-var EventEmitter = require("events").EventEmitter;
-var ffmpeg = require("fluent-ffmpeg");
-var ytdl = require("ytdl-core");
-var async = require("async");
-var progress = require("progress-stream");
-var sanitize = require("sanitize-filename");
+const os = require("os");
+const util = require("util");
+const EventEmitter = require("events").EventEmitter;
+const ffmpeg = require("fluent-ffmpeg");
+const ytdl = require("ytdl-core");
+const async = require("async");
+const progress = require("progress-stream");
+const filenamify = require('filenamify');
 
 function YoutubeMp3Downloader(options) {
 	var self = this;
@@ -117,12 +117,10 @@ YoutubeMp3Downloader.prototype.performDownload = function (task, callback) {
 			}
 
 			// Derive file name, if given, use it, if not, from video title
-			var randomFilenameElement = Math.floor((Math.random() * 100000) + 1);
-			var fileName = task.fileName
-				? self.outputPath + "/" + task.fileName
-				: self.outputPath +
+			var randomFilenameElement = Math.floor((Math.random() * 100000) + 1).toString();
+			var fileName = self.outputPath +
 				"/" +
-				(sanitize(videoTitle) || info.video_id) +
+				(filenamify(videoTitle || info.video_id).substring(0, 30)) +
 				"_" + randomFilenameElement +
 				".mp3";
 
@@ -164,10 +162,10 @@ YoutubeMp3Downloader.prototype.performDownload = function (task, callback) {
 						var outputOptions = [
 							"-id3v2_version",
 							"4",
-							"-metadata",
-							"title=" + title,
-							"-metadata",
-							"artist=" + artist
+							// "-metadata",
+							// "title=" + title,
+							// "-metadata",
+							// "artist=" + artist
 						];
 						if (self.outputOptions) {
 							outputOptions = outputOptions.concat(
