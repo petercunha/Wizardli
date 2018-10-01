@@ -21,9 +21,6 @@ var YD = new YoutubeMp3Downloader({
 	progressTimeout: 2000 // How long should be the interval of the progress reports
 })
 
-const STATIC_ASSET_FOLDER = path.join(__dirname, '..', 'website', 'dist', 'youtube-downloader');
-app.use('/', express.static(STATIC_ASSET_FOLDER));
-
 app.get('/download/:id', (req, res) => {
 	if (!req.params.id) {
 		res.status(500).send('No video ID.')
@@ -110,5 +107,9 @@ app.get('/downloadFile/:id', (req, res) => {
 		res.status(500).send('Download failed.')
 	}
 })
+
+// Serve UI to all unknown routes
+const STATIC_ASSET_FOLDER = path.join(__dirname, '..', 'website', 'dist', 'youtube-downloader');
+app.use('*', express.static(STATIC_ASSET_FOLDER));
 
 app.listen(config.port, () => console.log(`Listening on port ${config.port}`))
