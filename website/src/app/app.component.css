@@ -1,5 +1,5 @@
 .wizardli-content {
-  overflow: scroll;
+  overflow: auto;
   position: fixed;
   left: 0;
   right: 0;
