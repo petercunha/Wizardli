@@ -8,10 +8,12 @@ const async = require("async");
 const progress = require("progress-stream");
 const filenamify = require('filenamify');
 
+const MAX_LENGTH = 30 * 60 // Maximum video length (in seconds)
+
 function YoutubeMp3Downloader(options) {
 	var self = this;
 
-	self.youtubeBaseUrl = "https://www.youtube.com/watch?v=";
+	// self.youtubeBaseUrl = "https://www.youtube.com/watch?v=";
 	self.youtubeVideoQuality =
 		options && options.youtubeVideoQuality
 			? options.youtubeVideoQuality
@@ -92,7 +94,7 @@ YoutubeMp3Downloader.prototype.download = function (videoId, fileName) {
 
 YoutubeMp3Downloader.prototype.performDownload = function (task, callback) {
 	var self = this;
-	var videoUrl = self.youtubeBaseUrl + task.videoId;
+	var videoUrl = task.videoId;
 	var resultObj = {
 		videoId: task.videoId
 	};
@@ -128,73 +130,84 @@ YoutubeMp3Downloader.prototype.performDownload = function (task, callback) {
 				videoUrl,
 				{ quality: self.youtubeVideoQuality },
 				function (err, info) {
-					// Stream setup
-					var stream = ytdl.downloadFromInfo(info, {
-						quality: self.youtubeVideoQuality,
-						requestOptions: self.requestOptions
+
+					// Emit info about download
+					self.emit("started", {
+						info: info
 					});
 
-					stream.on("response", function (httpResponse) {
-						// Setup of progress module
-						var str = progress({
-							length: parseInt(
-								httpResponse.headers["content-length"]
-							),
-							time: self.progressTimeout
+					if (parseInt(info.length_seconds) > MAX_LENGTH) {
+						callback(`Video is too long, max seconds is ${MAX_LENGTH}`, resultObj);
+					} else {
+						// Stream setup
+						var stream = ytdl.downloadFromInfo(info, {
+							quality: self.youtubeVideoQuality,
+							requestOptions: self.requestOptions
 						});
 
-						// Add progress event listener
-						str.on("progress", function (progress) {
-							if (progress.percentage === 100) {
-								resultObj.stats = {
-									transferredBytes: progress.transferred,
-									runtime: progress.runtime,
-									averageSpeed: parseFloat(
-										progress.speed.toFixed(2)
-									)
-								};
-							}
-							self.emit("progress", {
-								videoId: task.videoId,
-								progress: progress
+						stream.on("response", function (httpResponse) {
+							// Setup of progress module
+							var str = progress({
+								length: parseInt(
+									httpResponse.headers["content-length"]
+								),
+								time: self.progressTimeout
 							});
-						});
-						var outputOptions = [
-							"-id3v2_version",
-							"4",
-							// "-metadata",
-							// "title=" + title,
-							// "-metadata",
-							// "artist=" + artist
-						];
-						if (self.outputOptions) {
-							outputOptions = outputOptions.concat(
-								self.outputOptions
-							);
-						}
 
-						// Start encoding
-						var proc = new ffmpeg({
-							source: stream.pipe(str)
-						})
-							.audioBitrate(info.formats[0].audioBitrate)
-							.withAudioCodec("libmp3lame")
-							.toFormat("mp3")
-							.outputOptions(outputOptions)
-							.on("error", function (err) {
-								callback(err.message, null);
+							// Add progress event listener
+							str.on("progress", function (progress) {
+								if (progress.percentage === 100) {
+									resultObj.stats = {
+										transferredBytes: progress.transferred,
+										runtime: progress.runtime,
+										averageSpeed: parseFloat(
+											progress.speed.toFixed(2)
+										)
+									};
+								}
+								self.emit("progress", {
+									videoId: task.videoId,
+									progress: progress
+								});
+							});
+							var outputOptions = [
+								"-q:a 0",
+								// "-id3v2_version",
+								// "4",
+								// "-metadata",
+								// "title=" + title,
+								// "-metadata",
+								// "artist=" + artist
+							];
+							if (self.outputOptions) {
+								outputOptions = outputOptions.concat(
+									self.outputOptions
+								);
+							}
+
+							// Start encoding
+							var proc = new ffmpeg({
+								source: stream.pipe(str)
 							})
-							.on("end", function () {
-								resultObj.file = fileName;
-								resultObj.youtubeUrl = videoUrl;
-								resultObj.videoTitle = videoTitle;
-								resultObj.artist = artist;
-								resultObj.title = title;
-								resultObj.thumbnail = thumbnail;
-								callback(null, resultObj);
-							})
-							.saveToFile(fileName);
-					});
+								.audioBitrate(info.formats[0].audioBitrate)
+								.withAudioCodec("libmp3lame")
+								.toFormat("mp3")
+								.outputOptions(outputOptions)
+								.on("error", function (err) {
+									callback(err.message, null);
+								})
+								.on("end", function () {
+									resultObj.file = fileName;
+									resultObj.youtubeUrl = videoUrl;
+									resultObj.videoTitle = videoTitle;
+									resultObj.artist = artist;
+									resultObj.title = title;
+									resultObj.thumbnail = thumbnail;
+									callback(null, resultObj);
+								})
+								.saveToFile(fileName);
+						});
+					}
 				}
 			);
 		}

@@ -34,8 +34,21 @@ app.get('/download/:id', (req, res) => {
 
 	try {
 		//Download video and save as MP3 file
+		console.log('got:', req.params.id);
+
 		YD.download(req.params.id)
 
+		// Download started
+		YD.on('started', function (info) {
+			console.log('started:', JSON.stringify(info))
+		})
+
+		// Download progress
+		YD.on('progress', function (info) {
+			console.log(JSON.stringify(info))
+		})
+
+		// Download finished
 		YD.on('finished', function (err, data) {
 			if (err) {
 				if (!sendComplete) {
@@ -70,10 +83,6 @@ app.get('/download/:id', (req, res) => {
 			}
 			console.log(err)
 		})
-
-		YD.on('progress', function (progress) {
-			// console.log(JSON.stringify(progress))
-		})
 	} catch (error) {
 		if (!sendComplete) {
 			res.status(500).send('An error occurred.')
@@ -98,23 +107,3 @@ app.get('/downloadFile/:id', (req, res) => {
 })
 
 app.listen(config.port, () => console.log(`Listening on port ${config.port}`))
-
-// Nodejs encryption with CTR
-// var crypto = require('crypto'),
-// 	algorithm = 'aes-256-ctr',
-// 	password = '~2fD&B,@36$(aAhm';
-
-// function encrypt(text) {
-// 	var cipher = crypto.createCipheriv(algorithm, password)
-// 	var crypted = cipher.update(text, 'utf8', 'hex')
-// 	crypted += cipher.final('hex');
-// 	return crypted;
-// }
-
-// function decrypt(text) {
-// 	var decipher = crypto.createDecipheriv(algorithm, password)
-// 	var dec = decipher.update(text, 'hex', 'utf8')
-// 	dec += decipher.final('utf8');
-// 	return dec;
-// }
-
