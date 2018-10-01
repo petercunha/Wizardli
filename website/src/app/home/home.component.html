@@ -1,3 +1,49 @@
-<p>
-  home works!
-</p>
+<div class="row justify-content-center pb-5 mb-5 mt-3">
+  <div class="row">
+    <div class="col-md-12">
+      <h2>YouTube to MP3</h2>
+    </div>
+  </div><br>
+  <div class="row">
+    <div class="col-md-12">
+      <p class="lead">Wizardli gets the best quality audio automatically. Download instantly.</p>
+    </div>
+  </div>
+  <div class="row w-100">
+    <div class="col-md-12">
+      <form (ngSubmit)="onSubmit()">
+        <div class="input-group mt-3 mb-5 mb-5">
+          <input [disabled]="isDownloadInProgress" [(ngModel)]="videoLink" (input)="onVideoLinkChange($event.target.value)"
+            class="pl-5 form-control bg-dark text-white border-secondary form-control-lg text-center" name="videoLinkEl"
+            type="text" placeholder="Enter YouTube video link">
+          <span class="input-group-append">
+            <div *ngIf="isDownloadInProgress; then progressBox else searchBox"></div>
+            <ng-template #searchBox>
+              <div *ngIf="isVideoLinkValid; then downloadIcon else searchIcon"></div>
+              <ng-template #searchIcon>
+                <button class="btn btn-dark border-secondary border-left-0 px-3" type="submit">
+                  <fa-icon [icon]="faSearch"></fa-icon>
+                </button>
+              </ng-template>
+              <ng-template #downloadIcon>
+                <button class="btn btn-primary px-3" type="submit">
+                  <fa-icon [icon]="faDownload"></fa-icon>
+                </button>
+              </ng-template>
+            </ng-template>
+            <ng-template #progressBox>
+              <button class="btn btn-dark border-secondary border-left-0 px-3" type="submit">
+                <fa-icon [icon]="faSpinner" [spin]="true"></fa-icon>
+              </button>
+            </ng-template>
+          </span>
+        </div>
+      </form>
+      <div *ngIf="isDownloadComplete">
+        <a [href]="downloadLink" class="btn btn-primary">
+          Download Now
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

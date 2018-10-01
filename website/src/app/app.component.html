@@ -1,68 +1,31 @@
-<div class="cover-container d-flex h-100 p-3 mx-auto flex-column text-center">
-  <header class="masthead mb-auto pb-3">
-    <div class="inner">
-      <h3 class="masthead-brand">Wizardli</h3>
-      <nav class="nav nav-masthead justify-content-center">
-        <a class="nav-link active" href="#">Home</a>
-        <a class="nav-link" href="href">About</a>
-        <a class="nav-link" href="href">Contact</a>
-      </nav>
-    </div>
-  </header>
-
-  <div class="row justify-content-center pb-5 mb-5 mt-3">
-    <div class="row">
-      <div class="col-md-12">
-        <h2>YouTube to MP3</h2>
-      </div>
-    </div><br>
-    <div class="row">
-      <div class="col-md-12">
-        <p class="lead">Wizardli gets the best quality audio automatically. Download instantly.</p>
-      </div>
-    </div>
-    <div class="row w-100">
-      <div class="col-md-12">
-        <form (ngSubmit)="onSubmit()">
-          <div class="input-group mt-3 mb-5 mb-5">
-            <input [disabled]="isDownloadInProgress" [(ngModel)]="videoLink" (input)="onVideoLinkChange($event.target.value)"
-              class="pl-5 form-control bg-dark text-white border-secondary form-control-lg text-center" name="videoLinkEl"
-              type="text" placeholder="Enter YouTube video link">
-            <span class="input-group-append">
-              <div *ngIf="isDownloadInProgress; then progressBox else searchBox"></div>
-              <ng-template #searchBox>
-                <div *ngIf="isVideoLinkValid; then downloadIcon else searchIcon"></div>
-                <ng-template #searchIcon>
-                  <button class="btn btn-dark border-secondary border-left-0 px-3" type="submit">
-                    <fa-icon [icon]="faSearch"></fa-icon>
-                  </button>
-                </ng-template>
-                <ng-template #downloadIcon>
-                  <button class="btn btn-primary px-3" type="submit">
-                    <fa-icon [icon]="faDownload"></fa-icon>
-                  </button>
-                </ng-template>
-              </ng-template>
-              <ng-template #progressBox>
-                <button class="btn btn-dark border-secondary border-left-0 px-3" type="submit">
-                  <fa-icon [icon]="faSpinner" [spin]="true"></fa-icon>
-                </button>
-              </ng-template>
-            </span>
-          </div>
-        </form>
-        <div *ngIf="isDownloadComplete">
-          <a [href]="downloadLink" class="btn btn-primary">
-            Download Now
-          </a>
+<div class="cover-container h-100 w-100 d-flex p-3 mx-auto flex-column text-center">
+    <header class="masthead mb-auto pb-3">
+        <div class="inner">
+            <a routerLink="/">
+                <h3 class="masthead-brand">Wizardli</h3>
+            </a>
+            <nav class="nav nav-masthead justify-content-center">
+                <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                    Home
+                </a>
+                <a class="nav-link" routerLink="about" routerLinkActive="active">
+                    About
+                </a>
+                <a class="nav-link" routerLink="contact" routerLinkActive="active">
+                    Contact
+                </a>
+            </nav>
         </div>
-      </div>
-    </div>
-  </div>
+    </header>
 
-  <footer class="mastfoot mt-auto">
-    <div class="inner">
-      <!-- <p class="small">Copyright @ Wizardlyi 2018 -->
+    <div class="container">
+        <router-outlet></router-outlet>
     </div>
-  </footer>
+
+
+    <footer class="mastfoot mt-auto">
+        <div class="inner">
+            <p class="small">Copyright @ Wizardli 2018
+        </div>
+    </footer>
 </div>
