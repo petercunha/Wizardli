@@ -30,6 +30,7 @@ app.get('/download/:id', (req, res) => {
 		return
 	}
 
+	let markedForDeletion = false;
 	let sendComplete = false;
 
 	try {
@@ -58,14 +59,18 @@ app.get('/download/:id', (req, res) => {
 			} else {
 				console.log('Video downloaded:\n', data);
 
-				// Delete file after 
-				setTimeout(() => {
-					fs.unlink(data.file, (error) => {
-						if (error) {
-							console.log(`Error deleting ${data.file} ERROR: ${error}`)
-						}
-					})
-				}, config.deleteTimer * 1000);
+				// Delete file after waiting
+				if (!markedForDeletion) {
+					markedForDeletion = true;
+					setTimeout(() => {
+						let fileName = data.file.split('/')[data.file.split('/').length - 1]
+						fs.unlink(path.join(__dirname, 'downloads', fileName), (error) => {
+							if (error) {
+								console.log(`Error deleting ${data.file} ERROR: ${error}`)
+							}
+						})
+					}, config.deleteTimer * 1000);
+				}
 
 				var filename = data.file.split('/')
 				var downloadId = encryption.encrypt(filename[filename.length - 1])
@@ -93,7 +98,7 @@ app.get('/download/:id', (req, res) => {
 
 app.get('/downloadFile/:id', (req, res) => {
 	try {
-		var file = __dirname + '/downloads/' + encryption.decrypt(req.params.id)
+		var file = path.join(__dirname, 'downloads', encryption.decrypt(req.params.id))
 		fs.stat(file, function (err) {
 			if (err) {
 				res.status(500).send('Download failed.')
