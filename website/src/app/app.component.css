@@ -1,3 +1,11 @@
+.wizardli-content {
+  overflow: scroll;
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+}
+
 .wizardli-bg {
   position: fixed;
   display:block;
@@ -17,13 +25,6 @@
 @keyframes bgfade {
   from {opacity: 0;}
   to {opacity: 1;}
-}
-
-.wizardli-content {
-  position: fixed;
-  left: 0;
-  right: 0;
-  z-index: 9999;
 }
 
 

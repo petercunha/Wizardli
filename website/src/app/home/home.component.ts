@@ -11,7 +11,7 @@ import * as url from 'url';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  readonly API_URL = ''; // Blank for local
+  readonly API_URL = ''; // Leave blank for local // Previously: http://localhost:3000
   title = 'youtube-downloader';
   videoLink = '';
   headerText = 'YouTube to MP3';
@@ -114,7 +114,7 @@ export class HomeComponent {
     this.isVideoLinkValid = false;
     this.videoLink = '';
     this.appService.bgActive = false;
-    this.headerText = 'Youtube to MP3';
+    this.headerText = 'YouTube to MP3';
     this.subText = 'Wizardli gets the best quality audio automatically. Download instantly.';
   }
 
