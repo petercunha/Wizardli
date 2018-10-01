@@ -1,16 +1,23 @@
-<div class="row justify-content-center pb-5 mb-5 mt-3">
-  <div class="row">
-    <div class="col-md-12">
-      <h2>YouTube to MP3</h2>
+<div class="row justify-content-center mt-3">
+  <div class="col-lg-12">
+    <div class="row">
+      <div class="col-lg-12">
+        <h2>{{ headerText }}</h2>
+      </div>
     </div>
-  </div><br>
-  <div class="row">
-    <div class="col-md-12">
-      <p class="lead">Wizardli gets the best quality audio automatically. Download instantly.</p>
+
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col-md-12">
+          <p class="lead text-white-50">{{ subText }}</p>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="row w-100">
-    <div class="col-md-12">
+</div>
+<div class="row justify-content-center pb-5 mb-5">
+  <div class="row w-100" *ngIf="!isDownloadComplete">
+    <div class="col-lg-12">
       <form (ngSubmit)="onSubmit()">
         <div class="input-group mt-3 mb-5 mb-5">
           <input [disabled]="isDownloadInProgress" [(ngModel)]="videoLink" (input)="onVideoLinkChange($event.target.value)"
@@ -39,11 +46,19 @@
           </span>
         </div>
       </form>
-      <div *ngIf="isDownloadComplete">
-        <a [href]="downloadLink" class="btn btn-primary">
-          Download Now
-        </a>
-      </div>
+    </div>
+  </div>
+
+  <div class="row w-100 justify-content-center" *ngIf="isDownloadComplete">
+    <div class="col-lg-4 col-md-4 col-sm-12">
+      <a [href]="downloadLink" class="btn btn-lg btn-primary mt-3 w-100">
+        Download Now
+      </a>
+    </div>
+    <div (click)="resetDownloadUI()" class="col-lg-4 col-md-4 col-sm-12">
+      <a class="btn btn-lg btn-light mt-3 w-100 text-dark">
+        Go Back
+      </a>
     </div>
   </div>
 </div>
