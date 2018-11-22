@@ -17,6 +17,6 @@
     "nodemon": "^1.18.4",
     "sanitize-filename": "^1.6.1",
     "youtube-mp3-downloader": "^0.5.3",
-    "ytdl-core": "^0.26.0"
+    "ytdl-core": "^0.28.0"
   }
 }
