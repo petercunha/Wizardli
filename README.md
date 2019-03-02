@@ -1,5 +1,5 @@
 # Wizardli
-An ultra fast YouTube-to-MP3 downloader and transcoder.
+An ultra fast YouTube-to-MP3 downloader and transcoder. [Visit the website](https://wizardli.net).
 
 ![Demo](https://i.imgur.com/oAwl1ui.png)
 
