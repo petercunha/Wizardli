@@ -2,6 +2,8 @@ const fs = require('fs')
 const path = require('path')
 const express = require('express')
 const app = express()
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 const config = require('./config.js')
 const YoutubeMp3Downloader = require('./lib/downloader')
 const encryption = require('./lib/encryption')
@@ -11,6 +13,12 @@ if (config.cors) {
   const cors = require('cors')
   app.use(cors())
 }
+
+io.on('connection', function(socket) {
+  socket.on('joinRoom', (roomId) => {
+    socket.join(roomId);
+  })
+});
 
 const STATIC_ASSET_FOLDER =
     path.join(__dirname, '..', 'website', 'dist', 'youtube-downloader');
@@ -35,29 +43,31 @@ app.get('/download/:id', (req, res) => {
       queueParallelism:
           1,  // How many parallel downloads/encodes should be started?
       progressTimeout:
-          2000  // How long should be the interval of the progress reports
+          150  // How long should be the interval of the progress reports
     })
 
     YD.download(req.params.id)
 
     // Download started
     YD.on('started', function(info) {
-      // console.log('started:', JSON.stringify(info))
+      io.to(req.query.client).emit('started', {})
     })
 
     // Download progress
-    YD.on('progress', function(info) {
-      console.log(JSON.stringify(info))
-    })
+    YD.on(
+        'progress', (info) => {io.to(req.query.client).emit('progress', info)})
 
     // Download finished
     YD.on('finished', function(err, data) {
+      io.to(req.query.client).emit('finished', {})
+
       if (err) {
         if (!sendComplete) {
           res.status(500).send('Invalid video ID.')
           sendComplete = true
         }
-      } else {
+      }
+      else {
         console.log('Video downloaded:\n', data);
 
         // Delete file after waiting
@@ -118,6 +128,6 @@ app.all('/*', function(req, res, next) {
   res.sendFile('index.html', {root: STATIC_ASSET_FOLDER});
 });
 
-app.listen(
+server.listen(
     config.port,
     () => console.log(`Started at http://localhost:${config.port}`))

@@ -11,9 +11,8 @@ import {AppServiceService} from '../app.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  readonly API_URL =
-      'http://localhost:3000';  // Leave blank for local // Previously:
-                                // http://localhost:3000
+  readonly API_URL = '';  // Leave blank for local // Previously:
+                          // http://localhost:3000
   title = 'youtube-downloader';
 
   faSearch = faSearch;
@@ -30,7 +29,8 @@ export class HomeComponent {
       console.log(
           'Video URL requested for download:', this.appService.videoLink);
       const tmpurl = `${this.API_URL}/download/${
-          encodeURIComponent(this.appService.videoLink)}`;
+          encodeURIComponent(this.appService.videoLink)}?client=${
+          this.appService.socketRoomId}`;
       this.activateSpecialUI();
 
       this.http.get(tmpurl, {responseType: 'text'})
@@ -45,6 +45,7 @@ export class HomeComponent {
               err => {
                 console.log('Error getting download link:', err);
                 this.resetDownloadUI();
+                this.appService.bgImage = '';
                 this.appService.subText =
                     'An error occurred during download. Please try again later.';
               });
@@ -64,7 +65,7 @@ export class HomeComponent {
       ytVideoId = ytVideoId.substring(0, ampersandPosition);
     }
 
-    this.appService.videoLink = 'Downloading audio...';
+    this.appService.videoLink = 'Preparing to download...';
     this.appService.isDownloadInProgress = true;
 
     // Query youtube API
@@ -104,6 +105,7 @@ export class HomeComponent {
             err => {
               console.log(err);
               this.resetDownloadUI();
+              this.appService.bgImage = '';
               this.appService.subText =
                   'An error occurred during download. Please try again later.';
             });
@@ -122,7 +124,6 @@ export class HomeComponent {
     this.appService.isVideoLinkValid = false;
     this.appService.videoLink = '';
     this.appService.bgActive = false;
-    this.appService.bgImage = '';
     this.appService.headerText = 'YouTube to MP3';
     this.appService.subText =
         'Wizardli gets the best quality audio automatically. Download instantly.';

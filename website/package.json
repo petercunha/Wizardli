@@ -30,6 +30,7 @@
     "jquery": "^3.3.1",
     "popper.js": "^1.14.7",
     "rxjs": "6.4.0",
+    "socket.io-client": "^2.2.0",
     "tslib": "^1.9.0",
     "yarn": "1.13.0",
     "zone.js": "0.8.29"
