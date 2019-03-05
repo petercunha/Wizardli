@@ -19,8 +19,7 @@ export class HomeComponent {
   faSpinner = faSpinner;
   faDownload = faDownload;
 
-  constructor(private http: HttpClient, private appService: AppServiceService) {
-  }
+  constructor(private http: HttpClient, public appService: AppServiceService) {}
 
   onSubmit() {
     this.appService.isDownloadComplete = false;
