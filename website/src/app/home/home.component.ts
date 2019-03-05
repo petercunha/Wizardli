@@ -15,15 +15,6 @@ export class HomeComponent {
       'http://localhost:3000';  // Leave blank for local // Previously:
                                 // http://localhost:3000
   title = 'youtube-downloader';
-  videoLink = '';
-  headerText = 'YouTube to MP3';
-  subText =
-      'Wizardli gets the best quality audio automatically. Download instantly.';
-  isVideoLinkValid = false;
-  downloadLink = '';
-  isDownloadInProgress = false;
-  isDownloadComplete = false;
-  videoThumbnail = '';
 
   faSearch = faSearch;
   faSpinner = faSpinner;
@@ -33,21 +24,23 @@ export class HomeComponent {
   }
 
   onSubmit() {
-    this.isDownloadComplete = false;
+    this.appService.isDownloadComplete = false;
 
-    if (this.isVideoLinkValid) {
-      console.log('Video URL requested for download:', this.videoLink);
-      const tmpurl =
-          `${this.API_URL}/download/${encodeURIComponent(this.videoLink)}`;
+    if (this.appService.isVideoLinkValid) {
+      console.log(
+          'Video URL requested for download:', this.appService.videoLink);
+      const tmpurl = `${this.API_URL}/download/${
+          encodeURIComponent(this.appService.videoLink)}`;
       this.activateSpecialUI();
 
       this.http.get(tmpurl, {responseType: 'text'})
           .subscribe(
               resp => {
-                this.downloadLink = `${this.API_URL}/downloadFile/${resp}`;
-                this.isDownloadComplete = true;
+                this.appService.downloadLink =
+                    `${this.API_URL}/downloadFile/${resp}`;
+                this.appService.isDownloadComplete = true;
                 this.finishDownloadUI();
-                console.log('Download link: ', this.downloadLink);
+                // console.log('Download link: ', appService.downloadLink);
               },
               err => {
                 this.finishDownloadUI();
@@ -55,22 +48,22 @@ export class HomeComponent {
               });
     } else {
       this.appService.bgActive = false;
-      this.headerText = 'YouTube to MP3';
-      this.subText =
+      this.appService.headerText = 'YouTube to MP3';
+      this.appService.subText =
           'Wizardli gets the best quality audio automatically. Download instantly.';
     }
   }
 
   activateSpecialUI() {
     // Get video ID from link
-    let ytVideoId = this.videoLink.split('v=')[1];
+    let ytVideoId = this.appService.videoLink.split('v=')[1];
     const ampersandPosition = ytVideoId.indexOf('&');
     if (ampersandPosition !== -1) {
       ytVideoId = ytVideoId.substring(0, ampersandPosition);
     }
 
-    this.videoLink = 'Downloading audio...';
-    this.isDownloadInProgress = true;
+    this.appService.videoLink = 'Downloading audio...';
+    this.appService.isDownloadInProgress = true;
 
     // Query youtube API
     const ytApiKey = 'AIzaSyBQGvKx7zgM80gt7h9Y42JPnFneNPo4Dk4';
@@ -103,8 +96,8 @@ export class HomeComponent {
 
               this.appService.bgImage = thumbnail;
               this.appService.bgActive = true;
-              this.headerText = title;
-              this.subText = 'Download initialized, please wait.';
+              this.appService.headerText = title;
+              this.appService.subText = 'Download initialized, please wait.';
             },
             err => {
               console.log(err);
@@ -112,20 +105,20 @@ export class HomeComponent {
   }
 
   finishDownloadUI() {
-    this.isDownloadInProgress = false;
-    this.isVideoLinkValid = false;
-    this.videoLink = '';
-    this.subText = 'Processing complete. Click below to download.';
+    this.appService.isDownloadInProgress = false;
+    this.appService.isVideoLinkValid = false;
+    this.appService.videoLink = '';
+    this.appService.subText = 'Processing complete. Click below to download.';
   }
 
   resetDownloadUI() {
-    this.isDownloadComplete = false;
-    this.isDownloadInProgress = false;
-    this.isVideoLinkValid = false;
-    this.videoLink = '';
+    this.appService.isDownloadComplete = false;
+    this.appService.isDownloadInProgress = false;
+    this.appService.isVideoLinkValid = false;
+    this.appService.videoLink = '';
     this.appService.bgActive = false;
-    this.headerText = 'YouTube to MP3';
-    this.subText =
+    this.appService.headerText = 'YouTube to MP3';
+    this.appService.subText =
         'Wizardli gets the best quality audio automatically. Download instantly.';
   }
 
@@ -139,9 +132,9 @@ export class HomeComponent {
         parsedUrl.hostname === 'www.youtu.be';
 
     if (isYouTube) {
-      this.isVideoLinkValid = true;
+      this.appService.isVideoLinkValid = true;
     } else {
-      this.isVideoLinkValid = false;
+      this.appService.isVideoLinkValid = false;
     }
   }
 }
