@@ -10,7 +10,7 @@
     "@angular-devkit/core" "7.3.4"
     rxjs "6.3.3"
 
-"@angular-devkit/build-angular@~0.13.0":
+"@angular-devkit/build-angular@0.13.4":
   version "0.13.4"
   resolved "https://registry.yarnpkg.com/@angular-devkit/build-angular/-/build-angular-0.13.4.tgz#f8b12bfae1d80b0aafc916f04b42a79b30c4cf7c"
   integrity sha512-7yJzgNk3ToiAHd8vnYonqiswvVNYzOUKg2xZfpx+SD5m7mVE+CSUp+P4YzUrI0Vm9WitZOYaCv1I6G1NguJHqA==
@@ -3744,7 +3744,7 @@ jasminewd2@^2.1.0:
   resolved "https://registry.yarnpkg.com/jasminewd2/-/jasminewd2-2.2.0.tgz#e37cf0b17f199cce23bea71b2039395246b4ec4e"
   integrity sha1-43zwsX8ZnM4jvqcbIDk5Uka07E4=
 
-jquery@^3.3.1:
+jquery@3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
   integrity sha512-Ubldcmxp5np52/ENotGxlLe6aGMvmF4R8S6tZjsP6Knsaxd/xp3Zrh50cG93lR6nPXyUFwzN3ZSOQI0wRJNdGg==
@@ -5234,7 +5234,7 @@ pkg-dir@^3.0.0:
   dependencies:
     find-up "^3.0.0"
 
-popper.js@^1.14.7:
+popper.js@1.14.7:
   version "1.14.7"
   resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.14.7.tgz#e31ec06cfac6a97a53280c3e55e4e0c860e7738e"
   integrity sha512-4q1hNvoUre/8srWsH7hnoSJ5xVmIL4qgz+s4qf2TnJIMyZFUFMGH+9vE7mXynAlHSZ/NdTmmow86muD0myUkVQ==
@@ -6879,7 +6879,7 @@ ts-node@8.0.2:
     source-map-support "^0.5.6"
     yn "^3.0.0"
 
-tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0:
+tslib@1.9.3, tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0:
   version "1.9.3"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.3.tgz#d7e4dd79245d85428c4d7e4822a79917954ca286"
   integrity sha512-4krF8scpejhaOgqzBEcGM7yDIEfi0/8+8zDRZhNZZ2kjmHJ4hv3zCbQWxoJGz1iw5U0Jl0nma13xzHXcncMavQ==
