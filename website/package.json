@@ -19,7 +19,7 @@
     "@angular/forms": "7.2.7",
     "@angular/http": "7.2.7",
     "@angular/platform-browser": "7.2.7",
-    "@angular/platform-browser-dynamic": "7.2.7",
+    "@angular/platform-browser-dynamic": "7.2.8",
     "@angular/router": "7.2.7",
     "@fortawesome/angular-fontawesome": "0.3.0",
     "@fortawesome/fontawesome-svg-core": "1.2.15",
