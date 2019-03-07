@@ -12,7 +12,7 @@
   "dependencies": {
     "cors": "^2.8.4",
     "express": "^4.16.3",
-    "filenamify": "^2.1.0",
+    "filenamify": "^3.0.0",
     "fluent-ffmpeg": "^2.1.2",
     "nodemon": "^1.18.4",
     "sanitize-filename": "^1.6.1",
