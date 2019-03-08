@@ -183,10 +183,10 @@
   resolved "https://registry.yarnpkg.com/@angular/language-service/-/language-service-7.2.7.tgz#c92d7fde437d6bddd2a4fe197f9c06005f3a5c53"
   integrity sha512-d3iCBpOfgLNSGMrtqZvN6NHZIEnKD2MV8Hz4WsRLU4WY0RbshZj5dqx2nO3YRT2tACpAvhWBQoYvtLpTCPzsMA==
 
-"@angular/platform-browser-dynamic@7.2.7":
-  version "7.2.7"
-  resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-7.2.7.tgz#22db038715c5b17464627a89898a63ece149c840"
-  integrity sha512-3nlcwCZOzlKw/4CMJ4zy1JEVy8Ky4KyLRRePLledOMdsGbuDIoq/kyAnBzg295Xe9ovBxv8cmuSkShci+s/x8g==
+"@angular/platform-browser-dynamic@7.2.8":
+  version "7.2.8"
+  resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-7.2.8.tgz#e82768900cedfa75bf453263f931a9f90f7aaab2"
+  integrity sha512-nOJt28A5pRn4mdL8y98V7bA6OOdMRjsQAcWCr/isGYF0l1yDC0ijUGWkHuRtj3z1/9tmERN0BLXx+xs1h4JhCQ==
   dependencies:
     tslib "^1.9.0"
 
