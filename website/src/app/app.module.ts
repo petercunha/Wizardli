@@ -9,6 +9,8 @@ import {AboutComponent} from './about/about.component';
 import {AppComponent} from './app.component';
 import {ContactComponent} from './contact/contact.component';
 import {HomeComponent} from './home/home.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 const appRoutes: Routes = [
   {path: 'contact', component: ContactComponent},
@@ -21,7 +23,8 @@ const appRoutes: Routes = [
   declarations: [AppComponent, HomeComponent, AboutComponent, ContactComponent],
   imports: [
     BrowserModule, FontAwesomeModule, FormsModule, HttpClientModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],
   bootstrap: [AppComponent]
