@@ -10,14 +10,14 @@
     "dev": "nodemon index.js"
   },
   "dependencies": {
-    "cors": "^2.8.4",
-    "express": "^4.16.3",
-    "filenamify": "^2.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "filenamify": "^4.1.0",
     "fluent-ffmpeg": "^2.1.2",
-    "nodemon": "^1.18.4",
+    "nodemon": "^1.19.1",
     "sanitize-filename": "^1.6.1",
     "socket.io": "^2.2.0",
     "youtube-mp3-downloader": "^0.5.3",
-    "ytdl-core": "^0.29.1"
+    "ytdl-core": "^0.29.2"
   }
 }
