@@ -16,7 +16,9 @@ if (config.cors) {
 }
 
 // Logging middleware
-app.use(morgan(':remote-addr [:status] :method :url (:response-time ms)'));
+app.use(
+	morgan(':date[iso] :remote-addr [:status] :method :url (:response-time ms)')
+);
 
 io.on('connection', function(socket) {
 	socket.on('joinRoom', roomId => {
