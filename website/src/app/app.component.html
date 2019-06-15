@@ -1,37 +1,57 @@
-<div [className]="appService.bgActive ? 'wizardli-bg-fadein h-100 w-100 wizardli-bg' : 'h-100 w-100 wizardli-bg'"
-    [ngStyle]="{'background-image': 'url(' + appService.bgImage + ')'}"></div>
+<div
+  [className]="
+    appService.bgActive
+      ? 'wizardli-bg-fadein h-100 w-100 wizardli-bg'
+      : 'h-100 w-100 wizardli-bg'
+  "
+  [ngStyle]="{ 'background-image': 'url(' + appService.bgImage + ')' }"
+></div>
 <div class="wizardli-content h-100 w-100">
-    <div class="cover-container h-100 w-100 d-flex p-3 mx-auto flex-column text-center">
-        <header class="masthead mb-auto pb-3">
-            <div class="inner">
-                <a routerLink="/">
-                    <h3 class="masthead-brand">Wizardli</h3>
-                </a>
-                <nav class="nav nav-masthead justify-content-center">
-                    <a class="nav-link" routerLink="/" routerLinkActive="active"
-                        [routerLinkActiveOptions]="{ exact: true }">
-                        Home
-                    </a>
-                    <a class="nav-link" routerLink="about" routerLinkActive="active">
-                        About
-                    </a>
-                    <a class="nav-link" routerLink="contact" routerLinkActive="active">
-                        Contact
-                    </a>
-                </nav>
-            </div>
-        </header>
+  <div
+    class="cover-container h-100 w-100 d-flex p-3 mx-auto flex-column text-center"
+  >
+    <header class="masthead mb-auto pb-3">
+      <div class="inner">
+        <a routerLink="/">
+          <img
+            class="img-fluid masthead-brand mt-1"
+            width="120"
+            src="/assets/images/logo.png"
+          />
+          <!-- <h3 class="masthead-brand">Wizardli</h3> -->
+        </a>
+        <nav class="nav nav-masthead justify-content-center">
+          <a
+            class="nav-link"
+            routerLink="/"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            Home
+          </a>
+          <a class="nav-link" routerLink="about" routerLinkActive="active">
+            About
+          </a>
+          <a class="nav-link" routerLink="contact" routerLinkActive="active">
+            Contact
+          </a>
+        </nav>
+      </div>
+    </header>
 
-        <div class="container">
-            <router-outlet></router-outlet>
-        </div>
-
-        <footer class="mastfoot mt-auto">
-            <div class="inner">
-                <a href="https://wintermute.technology" class="small text-white-50">
-                    Copyright @ 2019 Wintermute Technology
-                </a>
-            </div>
-        </footer>
+    <div class="container mb-5 pb-5">
+      <router-outlet></router-outlet>
     </div>
+
+    <footer class="mastfoot mt-auto">
+      <div class="inner">
+        <a
+          href="https://github.com/petercunha/Wizardli"
+          class="small text-white-50"
+        >
+          Copyright @ 2019 Wintermute Technology
+        </a>
+      </div>
+    </footer>
+  </div>
 </div>

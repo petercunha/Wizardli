@@ -1,3 +1,13 @@
 a {
-    text-shadow: none !important;
+  text-shadow: none !important;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+  .no-display-mobile {
+    display: none;
+  }
 }

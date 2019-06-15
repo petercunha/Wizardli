@@ -7,10 +7,6 @@ import { AppServiceService } from './app.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  bgImage = '';
-  bgSelected = false;
-
-  constructor(public appService: AppServiceService) { }
-
-  ngOnInit() { }
+  constructor(public appService: AppServiceService) {}
+  ngOnInit() {}
 }

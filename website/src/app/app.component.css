@@ -12,7 +12,6 @@
   top: 0;
   left: 0;
   z-index: 1;
-  filter: blur(5px) brightness(50%);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -20,6 +19,7 @@
 
 .wizardli-bg-fadein {
   animation: bgfade 7s;
+  filter: blur(5px) brightness(50%);
 }
 
 @keyframes bgfade {
@@ -76,7 +76,7 @@ a:hover {
 }
 
 .nav-masthead .nav-link:hover {
-  border-bottom-color: rgba(147, 112, 219, 0.7);
+  border-bottom-color: rgba(138, 43, 226, 0.6);
 }
 
 .nav-masthead .nav-link + .nav-link {
@@ -85,7 +85,7 @@ a:hover {
 
 .nav-masthead .active {
   color: #fff;
-  border-bottom-color: #9370db;
+  border-bottom-color: rgb(138, 43, 226);
 }
 
 @media (min-width: 48em) {

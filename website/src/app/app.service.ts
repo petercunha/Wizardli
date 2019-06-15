@@ -9,8 +9,8 @@ export class AppServiceService {
   public socketRoomId;
 
   // Background image settings
-  public bgImage = 'https://i.imgur.com/0UNtk72.jpg';
-  public bgActive = true;
+  public bgImage = '/assets/images/bg-dark.jpg';
+  public bgActive = false;
 
   // Main app variables
   public videoLink = '';
