@@ -1,9 +1,33 @@
-# Wizardli
-An ultra fast YouTube-to-MP3 downloader and transcoder. [Visit the website](https://wizardli.net).
+<h1 align="center">Welcome to Wizardli 👋</h1>
+<p>
+  <img src="https://img.shields.io/badge/version-1.1.5-blue.svg?cacheSeconds=2592000" />
+</p>
 
-![Demo](https://i.imgur.com/oAwl1ui.png)
+> An ultra fast YouTube-to-MP3 downloader and transcoder
 
-## Tech
- - Frontend built in `Angular 7`, webserver built with `Express`
- - Downloader built with `ytdl-core`
- - Transcoding is done with `ffmpeg`
+### 🏠 [Homepage](https://wizardli.net)
+
+## Install
+
+```sh
+npm install
+```
+
+## Usage
+
+```sh
+npm start
+```
+
+## Author
+
+👤 **Peter Cunha**
+
+* Github: [@petercunha](https://github.com/petercunha)
+
+## Show your support
+
+Give a ⭐️ if this project helped you!
+
+***
+_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_

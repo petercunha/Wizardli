@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class AppServiceService {
   // Socket.io Settings
   private url = '/';
@@ -9,14 +9,14 @@ export class AppServiceService {
   public socketRoomId;
 
   // Background image settings
-  public bgImage = '';
-  public bgActive = false;
+  public bgImage = 'https://i.imgur.com/0UNtk72.jpg';
+  public bgActive = true;
 
   // Main app variables
   public videoLink = '';
   public headerText = 'YouTube to MP3';
   public subText =
-      'Wizardli gets the best quality audio automatically. Download instantly.';
+    'Wizardli gets the best quality audio automatically. Download instantly.';
   public isVideoLinkValid = false;
   public downloadLink = '';
   public isDownloadInProgress = false;
@@ -32,7 +32,7 @@ export class AppServiceService {
       this.videoLink = 'Connecting to server...';
     });
 
-    this.socket.on('progress', (data) => {
+    this.socket.on('progress', data => {
       const completion = data.progress.percentage;
       const size = (data.progress.transferred / 1048576).toFixed(1) + ' MB';
 
@@ -49,6 +49,9 @@ export class AppServiceService {
   }
 
   randomString(length: number) {
-    return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, length);
+    return Math.random()
+      .toString(36)
+      .replace(/[^a-z]+/g, '')
+      .substr(0, length);
   }
 }

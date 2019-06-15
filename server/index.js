@@ -77,7 +77,7 @@ app.get('/download/:id', (req, res) => {
 					sendComplete = true;
 				}
 			} else {
-				console.log('DOWNLOADED:\n', data.videoTitle);
+				console.log('DOWNLOADED: ', data.videoTitle);
 
 				// Delete file after waiting
 				if (!markedForDeletion) {
