@@ -25,7 +25,7 @@ vim config.js   # Edit the config to your liking
 npm start       # Launch the server to serve the built website
 ```
 
-Then, launch the server and website using `npm start`.
+The website will now be accessible in your browser on the port you configured in `server/config.js`
 
 ## Author
 
