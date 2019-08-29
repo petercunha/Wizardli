@@ -16,9 +16,9 @@
     "fluent-ffmpeg": "^2.1.2",
     "morgan": "^1.9.1",
     "nodemon": "^1.19.1",
-    "sanitize-filename": "^1.6.1",
+    "sanitize-filename": "^1.6.3",
     "socket.io": "^2.2.0",
-    "youtube-mp3-downloader": "^0.5.3",
-    "ytdl-core": "^0.29.2"
+    "youtube-mp3-downloader": "^0.6.3",
+    "ytdl-core": "^0.29.5"
   }
 }
